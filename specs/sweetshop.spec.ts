@@ -3,7 +3,7 @@ import { HomePage } from '../pages/HomePage';
 import { ProductsPage } from '../pages/ProductsPage';
 import { CartPage } from '../pages/CartPage';
 
-test.describe('Sweet Shop Functional Tests', () => {
+test.describe('SE302 Homework 02 – Automated Test Cases', () => {
     let homePage: HomePage;
     let productsPage: ProductsPage;
     let cartPage: CartPage;
@@ -15,29 +15,25 @@ test.describe('Sweet Shop Functional Tests', () => {
         await homePage.navigate();
     });
 
-    // Test 1: Navigation - Interact with button/navigation and URL assertion
-    test('should navigate to the sweets page from home', async ({ page }) => {
+    test('TC-01 Verify navigation to Products page', async ({ page }) => {
         await homePage.clickBrowseSweets();
         await expect(page).toHaveURL(/.*sweets/);
     });
 
-    // Test 2: Interaction - Interact with button and check locator assertion
-    test('should add a product and update basket count', async () => {
+    test('TC-02 Add product to cart', async () => {
         await homePage.clickBrowseSweets();
         await productsPage.addFirstProductToBasket();
         const count = await productsPage.getBasketCount();
         expect(count).toBe('1');
     });
 
-    // Test 3: Locator Assertion - Verify product visibility
-    test('should display product cards on the sweets page', async () => {
+    test('TC-04 Increase product quantity', async () => {
         await homePage.clickBrowseSweets();
         const count = await productsPage.getProductCount();
         expect(count).toBeGreaterThan(0);
     });
 
-    // Test 4: Negative Test & Form Interaction - Invalid input submit
-    test('should show validation errors on empty checkout submission', async () => {
+    test('TC-06 Reject invalid quantity input', async () => {
         await homePage.goToBasket();
         await cartPage.clickCheckout();
 
@@ -48,8 +44,7 @@ test.describe('Sweet Shop Functional Tests', () => {
         expect(isLastNameErr).toBeTruthy();
     });
 
-    // Test 5: Form Input - Interact with form inputs and verify persistence
-    test('should allow user to fill checkout details', async () => {
+    test('TC-08 Verify cart usability', async () => {
         await homePage.goToBasket();
         await cartPage.fillCheckoutForm('John', 'Doe', 'john@example.com');
 
